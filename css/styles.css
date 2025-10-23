@@ -1,0 +1,252 @@
+/* VARIABLES */
+:root {
+    --color: #14213d;
+    --colorSecond: #fca311;
+    --bold: bold;
+    --titles: 40px;
+    --titles2: 30px;
+    --spacing: 1px;
+    --sizing: border-box;
+}
+
+/* ESTILOS GENERALES */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100dvh;
+    width: 100vw;
+}
+
+/* ESTILOS HEADER */
+.container-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 60px;
+    box-sizing: border-box;
+    background-color: var(--color);
+}
+
+.container-header h1 {
+    text-align: center;
+    color: var(--colorSecond);
+    font-size: var(--titles);
+    letter-spacing: var(--spacing);
+}
+
+/* ESTILOS MAIN */
+.container-main {
+    width: 100vw;
+    height: 120vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    box-sizing: var(--sizing);
+    background-color: var(--colorSecond);
+    color: var(--color);
+}
+
+.section-map {
+    margin-top: 15px;
+}
+
+.section-map h2 {
+    font-size: var(--titles2);
+    margin-bottom: 5px;
+    text-align: center;
+    letter-spacing: var(--spacing);
+    font-weight: var(--bold);
+}
+
+/* ESTILOS A LOS DOS MAPAS*/
+#map, #filter-map {
+    height: 425px;
+    width: 48vw;
+}
+
+/* ESTILOS MAPA GENERAL */
+.div-map {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-map h2 {
+    margin: 0;
+}
+
+/* ESTILOS MAPA FILTRADO */
+.div-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#button-filters, #button-save {
+    width: 180px;
+    background-color: var(--color);
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    letter-spacing: var(--spacing);
+    z-index: 999;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-bottom: 2px;
+}
+
+.aside-filters {
+    display: none;
+}
+
+/* ESTILOS A FORMULARIOS */
+.container-forms {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100vw;
+    height: 50vh;
+    box-sizing: var(--sizing);
+}
+
+.container-forms form {
+    margin-top: 5px;
+}
+
+.section-form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    width: 35%;
+    height: 45vh;
+    background-color: var(--colorSecond);
+    box-shadow: 0px 0px 8px 5px  var(--color);
+}
+
+.section-form h2 {
+    font-size: var(--titles2);
+    letter-spacing: var(--spacing);
+    text-align: center;
+    margin-top: 5px;
+}
+
+.section-form p {
+    width: 85%;
+    padding: 9px;
+    margin-left: 26px;
+    text-align: center;
+    letter-spacing: var(--spacing);
+    background-color: #14213d;
+    opacity: 0.9;
+    color: var(--colorSecond);
+    cursor: default;
+}
+
+#form-register, #form-login {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.forms label {
+    font-size: 18px;
+    font-weight: var(--bold);
+}
+
+label:not(label:first-child) {
+    margin-top: 8px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 50%;
+    background-color: var(--color);
+    opacity: 0.8;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 6px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    opacity: 1;
+    outline: none;
+}
+
+button[type="submit"] {
+    width: 35%;
+    margin-top: 15px;
+    padding: 6px;
+    background-color: var(--color);
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: var(--spacing);
+}
+
+/* ESTILOS FOOTER */
+.container-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100vw;
+    height: 60px;
+    background-color: var(--color);
+    color: var(--colorSecond);
+    font-size: 19px;
+}
+
+.container-footer a {
+    color: var(--colorSecond);
+}
+
+/* ESTILOS POPUP - MAPA GENERAL */
+.leaflet-touch .leaflet-bar a {
+    background-color: var(--color);
+    color: var(--colorSecond);
+    opacity: 0.8;
+}
+
+.popup-title {
+    color: var(--color);
+    font-weight: var(--bold);
+}
+
+.leaflet-popup-content {
+    margin: 0px;
+}
+
+.popup-text {
+    color: var(--colorSecond);
+}
+
+.popup-text span {
+    color: var(--color);
+    font-weight: var(--bold);
+}
+
+.fav-btn {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    background-color: var(--colorSecond);
+    color: var(--color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}

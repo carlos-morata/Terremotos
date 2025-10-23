@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica Terremotos</title>
+    <!-- LINKS CSS MÍOS -->
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <!-- LINKS LAEFLET -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script src="https://unpkg.com/leaflet@latest/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-providers@latest/leaflet-providers.js"></script>
+    
+</head>
+
+<body>
+    <header class="container-header">
+        <h1>Práctica Terremotos</h1>
+    </header>
+    <main class="container-main">
+        <section class="section-map section-map1">
+            <div class="div-map">
+                <h2 id="title-map">Terremotos en Curso</h2>
+                <button id="button-save">Ver Destacados</button>
+            </div>
+            <div id="map"></div>
+        </section>
+        <section class="section-map section-map2">
+            <div class="div-filter">
+                <h2 id="title-filter-map">Mapa de Magnitud y Fecha</h2>
+                <button id="button-filters">Aplicar Filtros</button>
+            </div>
+            <aside class="aside-filters">
+                <label for="magnitud">Número de Magnitud:</label>
+                <input type="number" id="filters">
+
+                <label for="start-date">Fecha de Inicio:</label>
+                <input type="datetime" id="start-date">
+
+                <label for="end-date">Fecha de Fin:</label>
+                <input type="datetime" id="end-date">
+
+                <button type="submit" id="add-filters">
+                    Añadir Filtros
+                </button>
+            </aside>
+            <div id="filter-map"></div>
+        </section>
+        <div class="container-forms">
+        <section class="section-form section-register">
+            <h2>Regístrate</h2>
+            <p>Al regístrarte podrás guardar los terremotos que más te inquietan y sólo los podrás ver tú!</p>
+            <form action="" id="form-register" class="forms">
+                <label for="username">Nombre de Usuario</label>
+                 <input type="text" id="username">
+
+                 <label for="email">Correo Electrónico</label>
+                 <input type="email" id="email">
+
+                 <label for="password">Contraseña</label>
+                 <input type="password" id="password">
+
+                 <button type="submit">Regístrarme</button>
+            </form>
+        </section>
+        <section class="section-form section-login">
+            <h2>Inicia Sesión</h2>
+            <p>¿Ya tienes una cuenta? Inicia sesión y sigue los terremotos que has guardado!</p>
+            <form action="" id="form-login" class="forms">
+                <label for="email-login">Correo Electrónico</label>
+                <input type="email" id="email-login">
+
+                <label for="password-login">Contraseña</label>
+                <input type="password" id="password-login">
+
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </section>
+        </div>
+    </main>
+    <footer class="container-footer">
+        <p>&copy; Carlos Moratinos</p>
+        <a href="#title-map">Ir a Mapas</a>
+    </footer>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
+
+    <script src="./js/script.js"></script>
+</body>
+
+</html>
