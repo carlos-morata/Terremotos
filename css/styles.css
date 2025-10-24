@@ -41,7 +41,7 @@ body {
 /* ESTILOS MAIN */
 .container-main {
     width: 100vw;
-    height: 120vh;
+    height: 130vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -52,6 +52,7 @@ body {
 }
 
 .section-map {
+    width: 48vw;
     margin-top: 15px;
 }
 
@@ -72,8 +73,9 @@ body {
 /* ESTILOS MAPA GENERAL */
 .div-map {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+
 }
 
 .section-map h2 {
@@ -81,10 +83,46 @@ body {
 }
 
 /* ESTILOS MAPA FILTRADO */
-.div-filter {
+#filter-aside {
+    width: 100%;
+    height: 15%;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
     align-items: center;
+    padding: 10px;
+    margin-top: 2px;
+    box-sizing: var(--sizing);
+    color: var(--color);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+#filter-aside label {
+    font-size: 18px;
+    font-weight: var(--bold);
+}
+
+#filter-aside input {
+    border: 2px solid var(--color);
+    background-color: transparent;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+#filter-aside button {
+    width: 150px;
+    border: 2px solid var(--colorSecond);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 10px;
 }
 
 #button-filters, #button-save {
@@ -100,10 +138,6 @@ body {
     text-transform: uppercase;
     cursor: pointer;
     margin-bottom: 2px;
-}
-
-.aside-filters {
-    display: none;
 }
 
 /* ESTILOS A FORMULARIOS */
@@ -249,4 +283,35 @@ button[type="submit"] {
     border: none;
     border-radius: 10px;
     cursor: pointer;
+}
+
+@media (max-width: 450px) {
+    .container-header h1 {
+        font-size: 38px;
+    }
+    .container-main {
+        height: 100vh;
+        overflow-x: auto;
+        display: flex;
+    }
+    .section-map {
+        width: 100%;
+    }
+    #map, #filter-map {
+        width: 90%;
+    }
+    #filter-aside {
+        width: 90%;
+        height: 120px;
+    }
+    .container-forms {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .section-form {
+        width: 90%;
+    }
+    .section-login {
+        margin-top: 10px;
+    }
 }
