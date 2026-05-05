@@ -1,4 +1,4 @@
-// MAPA GENERAL
+// MAPA TERREMOTOS EN VIVO
 var map = L.map("map").setView([51.505, -0.09], 1.5);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -6,34 +6,6 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-// MAPA FILTRADO
-var filterMap = L.map("filter-map").setView([51.505, -0.09], 2);
-
-L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(filterMap);
-
-//Agregar marcador - Mapa General
-const marker = L.marker([40.450325, -3.692854])
-  .bindPopup("Aquí no hay terremoto")
-  .addTo(map);
-
-//Agregar circulo - Mapa General
-const circle = L.circle([40.450325, -3.692854], {
-  color: "#14213d",
-  fillOpacity: 0.4,
-  radius: 500,
-})
-  .bindPopup("")
-  .addTo(map);
-
-//Agregar marcador - Mapa General
-const marker2 = L.marker([40.450325, -3.692854])
-  .bindPopup("Añade los filtros que desea para ver el mapa en acción")
-  .addTo(filterMap);
-
-// MAPA GENERAL
 async function getMap() {
   try {
     // LLAMAR A API
@@ -42,14 +14,13 @@ async function getMap() {
     );
     // CONVERTIRLO A JSON
     const data = await res.json();
-    // Retornar dentro de data features
+    // Retornar dentro de data a la propiedad features
     return data.features;
   } catch (e) {
     console.log(e);
   }
 }
 
-// LLamar a función
 getMap().then((data) => {
   // Agregar Marcador
   data.map((pin) => {
@@ -78,6 +49,7 @@ getMap().then((data) => {
     } else if (colorMag <= 7) {
       color = "#f818fa";
     }
+
     // Añadir Círculos magnitud
     L.circle(coordinates_pin, {
       radius: 8,
@@ -86,26 +58,26 @@ getMap().then((data) => {
       fillOpacity: 0.8,
     }).addTo(map);
 
-    // Añadir info
+    // Añadir info a PopUp
     const markers = L.marker(coordinates_pin)
       .bindPopup(
         `
                 <h3 class="popup-title">${pin.properties.title}</h3>
-                <p class="popup-text"><span>Fecha: </span>${pin.properties.updated}</p>
+                <p class="popup-text"><span>Fecha: </span>${pin.properties.time}</p>
                 <p class="popup-text"><span>Lugar: </span>${pin.properties.place}</p>
                 <p class="popup-text"><span>Código: </span>${pin.properties.code}</p>
-                <p class="popup-text" id="mag"><span>Magnitud: </span>${pin.properties.mag}</p>
+                <p class="popup-text"><span>Magnitud: </span>${pin.properties.mag}</p>
                 <button class='fav-btn'>Añadir a Destacado</button>
                 `
       )
       .addTo(map);
     markers.on("popupopen", () => {
-      // Seleccionar botón
       const favButton = document.querySelector(".fav-btn");
+
       if (favButton) {
         favButton.addEventListener("click", () => {
           alert(
-            "El terremoto que te inquieta ha sido guardado a tus destacados!"
+            `El Terremoto ${pin.properties.title} ha sido guardado a tu lista.`
           );
         });
       }
@@ -113,7 +85,14 @@ getMap().then((data) => {
   });
 });
 
-// Mapa Magnitud - Fecha
+// MAPA HISTORIAL DE TERREMOTOS
+var filterMap = L.map("filter-map").setView([51.505, -0.09], 1.5);
+
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(filterMap);
+
 async function getMap2() {
   try {
     const res = await fetch(
@@ -127,78 +106,115 @@ async function getMap2() {
 }
 
 getMap2().then((data) => {
-  document.getElementById("filter-form").addEventListener("submit", (event) => {
-    // Evitar comportamiento por defecto
-    event.preventDefault();
-
-    const mg = parseFloat(document.getElementById("mg").value);
-
+  document.getElementById("add-btn").addEventListener("click", () => {
+    const mag = parseFloat(document.getElementById("mag").value);
+    // Capturamos input - Sacamos valor - Formateamos
     const startDate = document.getElementById("start-date").value;
     const formatStart = new Date(startDate);
-    formatStart.setHours(0, 0, 0, 0);
 
     const endDate = document.getElementById("end-date").value;
     const formatEnd = new Date(endDate);
-    formatEnd.setHours(23, 59, 59, 999);
 
-    const dataFilters = data.filter((filterPin) => {
-      const valueDate = new Date(filterPin.properties.time);
+    const dataFilter = data.filter((data) => {
+      const formatDate = new Date(data.properties.time);
       return (
-        filterPin.properties.mag <= mg &&
-        valueDate >= formatStart &&
-        valueDate <= formatEnd
+        data.properties.mag <= mag ||
+        (formatDate >= formatStart && formatDate <= formatEnd)
       );
     });
 
-    dataFilters.map((pin) => {
-      // Coordenadas -> Latitud, Longitud
+    dataFilter.map((pin) => {
       const coordinates_pin = [
         pin.geometry.coordinates[1],
         pin.geometry.coordinates[0],
       ];
 
-      // Sacamos el valor de la magnitud
-      const colorMag = pin.properties.mag;
-      if (colorMag <= 0) {
+      const valueMag = pin.properties.mag;
+      if (valueMag <= 0) {
         color = "#f0f0f0";
-      } else if (colorMag <= 1) {
+      } else if (valueMag <= 1) {
         color = "#1d8919";
-      } else if (colorMag <= 2) {
+      } else if (valueMag <= 2) {
         color = "#8e911c";
-      } else if (colorMag <= 3) {
+      } else if (valueMag <= 3) {
         color = "#f9f016";
-      } else if (colorMag <= 4) {
+      } else if (valueMag <= 4) {
         color = "#f6ce1d";
-      } else if (colorMag <= 5) {
+      } else if (valueMag <= 5) {
         color = "#fb9c16";
-      } else if (colorMag <= 6) {
+      } else if (valueMag <= 6) {
         color = "#f61719";
-      } else if (colorMag <= 7) {
+      } else if (valueMag <= 7) {
         color = "#f818fa";
       }
 
-      // Añadir info
       L.circleMarker(coordinates_pin, {
-        radius: 6,
+        radius: 8,
         color: color,
         fillColor: color,
         fillOpacity: 0.8,
-      })
-        .bindPopup(
-          `
-                <h3 class="popup-title">${pin.properties.title}</h3>
-                <p class="popup-text"><span>Fecha: </span>${pin.properties.updated}</p>
-                <p class="popup-text"><span>Lugar: </span>${pin.properties.place}</p>
-                <p class="popup-text"><span>Código: </span>${pin.properties.code}</p>
-                <p class="popup-text" id="mag"><span>Magnitud: </span>${pin.properties.mag}</p>
-            `
-        )
-        .addTo(filterMap);
+      }).addTo(filterMap);
     });
   });
 });
 
-// Objeto de conexión
+// Información Niveles Sísmicos
+// const infoHidden = document.getElementById("container-info")
+// document.getElementById("life-btn").addEventListener("click", () => {
+//    infoHidden.innerHTML += `
+//     <div class="info-hidden">
+//       <h4>Colores Niveles Sísmicos</h4>
+//       <ol class="info-list">
+//         <li class="info-element">0 <i class="fa fa-circle"></i></li>
+//         <li class="info-element">1 <i class="fa fa-circle"></i></li>
+//         <li class="info-element">2 <i class="fa fa-circle"></i></li>
+//         <li class="info-element">3 <i class="fa fa-circle"></i></li>
+//         <li class="info-element">4 <i class="fa fa-circle"></i></li>
+//         <li class="info-element">5 <i class="fa fa-circle"></i></li>
+//         <li class="info-element">6 <i class="fa fa-circle"></i></li>
+//         <li class="info-element">7 <i class="fa fa-circle"></i></li>
+//       </ol>   
+//     </div>
+//     `
+//     const lifeBtn = document.getElementById("life-btn")
+//     lifeBtn.disabled = true;
+// })
+
+// MODAL REGISTRO DE USUARIOS
+let modalRegister = document.getElementById("register-modal");
+let openRegister = document.getElementById("register-open");
+let closeRegister = document.getElementById("register-close");
+
+openRegister.addEventListener("click", () => {
+  modalRegister.style.display = "block";
+})
+
+closeRegister.addEventListener("click", () => {
+  modalRegister.style.display = "none";
+})
+
+// MODAL INICIO DE SESIÓN
+let modalLogin = document.getElementById("login-modal");
+let openLogin = document.getElementById("login-open");
+let closeLogin = document.getElementById("login-close");
+
+openLogin.addEventListener("click", () => {
+  modalLogin.style.display = "block";
+});
+closeLogin.addEventListener("click", () => {
+  modalLogin.style.display = "none";
+})
+
+// MODAL INFORMACIÓN ESCALA DE MAGNITUD
+let modalInfo = document.getElementById("info-modal");
+let closeInfo = document.getElementById("close-info");
+
+closeInfo.addEventListener("click", () => {
+  modalInfo.style.display = "none";
+});
+
+// FIRESTORE
+// Objeto de Conexión
 let firebaseConfig = {
   apiKey: "AIzaSyB9pXcMFfhfAQIHUKgY-0uJ_GymlsfmiLk",
   authDomain: "fir-web-e6114.firebaseapp.com",
@@ -208,50 +224,76 @@ let firebaseConfig = {
   appId: "1:52533220535:web:9247805c509834fdb6a932",
 };
 
-// Inicializaar app Firebase
+// Inicializar app Firebase
 firebase.initializeApp(firebaseConfig);
 
 // db representa mi BBDD //inicia Firestore
 const db = firebase.firestore();
 
 // REGISTRO DE USUARIO
-// Crear elemento
+// Crear elemento de Registro
 const createUser = (user) => {
-  db.collection("users")
+  db.collection("registerUsers")
     .add(user)
     .then((docRef) => {
       alert(`Has sido registrado correctamente. Su id es: ${docRef.id}`);
     })
-    .catch((error) => console.error("Error adding document: ", error));
+    .catch((error) =>
+      console.error(
+        `Ha habido un error en su registro: ${error}. Inténtelo de nuevo por favor.`
+      )
+    );
 };
 
 // Crear Registro
-document.getElementById("form-register").addEventListener("submit", (event) => {
-  // Evitar comportamiento por defecto del formulario
+document.getElementById("register-form").addEventListener("submit", (event) => {
+  // Evitar comportamiento por defecto
   event.preventDefault();
+
   // Capturar valores del usuario
   const username = event.target.username.value.trim();
   const email = event.target.email.value.trim();
   const password = event.target.password.value.trim();
+  const repitePassword = event.target.repitePassword.value.trim();
 
+  // Regex para Contraseña
   const passwordValidation = /^(?=.*[A-Z]).{6,}$/;
-  // Validar campos
-  if (!username || !email) {
-    alert("Hay un campo vacio. Rellénelo por favor.");
-    return;
-  }
-  if (!passwordValidation) {
+
+  // Validación de los input
+  if (!username) {
+    alert(`El campo ${username} está incompleto.`);
+  } else if (!email) {
+    alert(`El campo ${email} está incompleto.`);
+  } else if (!password) {
     alert(
-      `Contraseña Incorrecta -> Debe tener mínimo 6 Carácteres y 1 Mayúscula`
+      `Contraseña incompleta ${password}. Debe tener al menos 1 mayúscula y mínimo 6 carácteres.`
     );
-    return;
+  } else if (password != repitePassword) {
+    alert(`Las contraseñas deben coincidir.`);
   }
-  // Añadir al elemento los valores
+
+  // Añadir valores a la colección Usuario
   createUser({
     username,
     email,
     password,
   });
-  // Resetear formulario
+  // Resetear Formulario
   event.target.reset();
 });
+
+// Eliminar Usuario
+const deleteUser = () => {
+  const email = prompt(`Introduce su email para eliminar su usuario.`);
+  db.collection("registerUsers")
+    .doc(email)
+    .delete()
+    .then(() => {
+      alert(`Su usuario con email ${email} ha sido eliminado.`);
+    })
+    .catch(() => {
+      alert(
+        `Su usuario con email ${email} no se ha podido eliminar. Inténtelo de nuevo.`
+      );
+    });
+};

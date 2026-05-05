@@ -1,345 +1,347 @@
 /* VARIABLES */
 :root {
     --color: #14213d;
-    --colorSecond: #fca311;
+    --secondColor: #aad3df;
+    --thirdColor: white;
+    --colorOld: #fca311;
+    --size: 25px;
+    --size2: 22px;
     --bold: bold;
-    --titles: 40px;
-    --titles2: 30px;
-    --spacing: 1px;
     --sizing: border-box;
+    --border: none;
+    --borderRadius: 8px;
+    --spacing: 1px;
+    --cursor: pointer;
+    --center: center;
 }
 
-/* ESTILOS GENERALES */
-* {
-    margin: 0;
-    padding: 0;
-}
-
+/* MOBILE FIRST */
 body {
+    display: flex;
+    flex-direction: column;
     min-height: 100dvh;
     width: 100vw;
 }
 
-/* ESTILOS HEADER */
+/* HEADER */
 .container-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 60px;
-    box-sizing: border-box;
-    background-color: var(--color);
+    background-color: var(--secondColor);
+    width: 100%;
+    box-sizing: var(--sizing);
 }
 
 .container-header h1 {
-    text-align: center;
-    color: var(--colorSecond);
-    font-size: var(--titles);
-    letter-spacing: var(--spacing);
-}
-
-/* ESTILOS MAIN */
-.container-main {
-    width: 100vw;
-    height: 130vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    box-sizing: var(--sizing);
-    background-color: var(--colorSecond);
     color: var(--color);
-}
-
-.section-map {
-    width: 48vw;
-    margin-top: 15px;
-}
-
-.section-map h2 {
-    font-size: var(--titles2);
-    margin-bottom: 5px;
-    text-align: center;
-    letter-spacing: var(--spacing);
+    font-size: var(--size);
     font-weight: var(--bold);
+    text-align: var(--center);
+    padding: 10px 0px;
 }
 
-/* ESTILOS A LOS DOS MAPAS*/
-#map, #filter-map {
-    height: 425px;
-    width: 48vw;
-}
+/* BOTONES REGISTRO / INICIO DE SESIÓN */
 
-/* ESTILOS MAPA GENERAL */
-.div-map {
+.section-user-btn {
     display: flex;
     justify-content: space-around;
-    align-items: center;
-
 }
 
-.section-map h2 {
-    margin: 0;
-}
-
-/* ESTILOS MAPA FILTRADO */
-#filter-aside {
-    width: 100%;
-    height: 15%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    padding: 10px;
-    margin-top: 2px;
-    box-sizing: var(--sizing);
+.user-btn {
+    background-color: var(--secondColor);
     color: var(--color);
-    border-radius: 10px;
-    margin-top: 10px;
-}
-
-#filter-aside label {
-    font-size: 18px;
-    font-weight: var(--bold);
-}
-
-#filter-aside input {
-    border: 2px solid var(--color);
-    background-color: transparent;
-    padding: 5px;
-    border-radius: 10px;
-}
-
-#filter-aside button {
-    width: 150px;
-    border: 2px solid var(--colorSecond);
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-#filter-form {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    column-gap: 10px;
-}
-
-#button-filters, #button-save {
-    width: 180px;
-    background-color: var(--color);
-    color: white;
+    box-shadow: 3px 3px 5px 0px var(--color);
+    margin: 5px 0px 10px 0px;
+    border: var(--border);
+    width: 125px;
     padding: 8px;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    letter-spacing: var(--spacing);
-    z-index: 999;
-    text-transform: uppercase;
+    border-radius: var(--borderRadius);
+    font-weight: var(--bold);
     cursor: pointer;
-    margin-bottom: 2px;
 }
 
-/* ESTILOS A FORMULARIOS */
-.container-forms {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    width: 100vw;
-    height: 50vh;
+/* MAIN */
+.container-main {
+    background-color: var(--color);
+    color: var(--thirdColor);
+    width: 100%;
     box-sizing: var(--sizing);
 }
 
-.container-forms form {
-    margin-top: 5px;
+.container-main > p {
+    width: 90%;
+    text-align: var(--center);
+    margin: 15px auto;
+    line-height: 19px;
 }
 
-.section-form {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 5px;
-    width: 35%;
-    height: 45vh;
-    background-color: var(--colorSecond);
-    box-shadow: 0px 0px 8px 5px  var(--color);
+/* LOS DOS MAPAS */
+.section-maps {
+    width: 100%;
+    box-sizing: var(--sizing);
 }
 
-.section-form h2 {
-    font-size: var(--titles2);
-    letter-spacing: var(--spacing);
-    text-align: center;
-    margin-top: 5px;
-}
-
-.section-form p {
-    width: 85%;
-    padding: 9px;
-    margin-left: 26px;
-    text-align: center;
-    letter-spacing: var(--spacing);
-    background-color: #14213d;
-    opacity: 0.9;
-    color: var(--colorSecond);
-    cursor: default;
-}
-
-#form-register, #form-login {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.forms label {
-    font-size: 18px;
+.section-maps h2 {
+    color: var(--secondColor);
+    font-size: var(--size2);
     font-weight: var(--bold);
-}
-
-label:not(label:first-child) {
-    margin-top: 8px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 50%;
-    background-color: var(--color);
-    opacity: 0.8;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 6px;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-    opacity: 1;
-    outline: none;
-}
-
-button[type="submit"] {
-    width: 35%;
-    margin-top: 15px;
-    padding: 6px;
-    background-color: var(--color);
-    color: white;
-    font-size: 18px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
     letter-spacing: var(--spacing);
+    margin-left: 15px;
+    margin-bottom: 5px;
 }
 
-/* ESTILOS FOOTER */
-.container-footer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100vw;
-    height: 60px;
-    background-color: var(--color);
-    color: var(--colorSecond);
-    font-size: 19px;
+#map, #filter-map {
+    width: 90%;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: var(--borderRadius);
 }
 
-.container-footer a {
-    color: var(--colorSecond);
-}
-
-/* ESTILOS POPUP - MAPA GENERAL */
 .leaflet-touch .leaflet-bar a {
+    color: var(--secondColor);
     background-color: var(--color);
-    color: var(--colorSecond);
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
-.popup-title {
-    color: var(--color);
+.leaflet-container .leaflet-control-attribution {
+    display: none;
+}
+
+.map-life, .map-history {
+    margin-bottom: 15px;
+}
+
+/* FILTROS HISTORIAL DE TERREMOTOS */
+.filter-form {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 10px 0px 5px 15px;
+    box-sizing: var(--sizing);
+}
+
+#mag {
+    margin-left: 80px;
+    width: 126px;
+}
+
+#start-date {
+    margin-left: 35px;
+}
+
+#end-date {
+    margin-left: 51px;
+}
+
+.filter-form input, select {
+    padding: 5px;
+    border-radius: 8px;
+    border: 2px solid var(--secondColor);
+    background-color: var(--color);
+    color: var(--thirdColor);
+}
+
+#add-btn {
+    width: 150px;
+    align-self: center;
+    color: var(--thirdColor);
+    background-color: var(--color);
+    box-shadow: 2px 2px 3px 0px var(--secondColor);
+    margin: 5px 0px 10px 0px;
+    padding: 8px;
+    border: var(--border);
+    border-radius: var(--borderRadius);
     font-weight: var(--bold);
+    cursor: pointer;
+}
+
+/* POPUP - MAPAS */
+.leaflet-popup-content-wrapper {
+    width: 200px;
+    height: 150px;
+    overflow: scroll;
+    background: #14213df7 !important;
 }
 
 .leaflet-popup-content {
+    color: var(--thirdColor);
     margin: 0px;
 }
 
-.popup-text {
-    color: var(--colorSecond);
+.leaflet-popup-content p {
+    margin: 10px 0px !important;
+}
+
+.popup-title {
+    color: var(--secondColor);
+    font-weight: var(--bold);
+    border-bottom: 1px solid var(--thirdColor);
 }
 
 .popup-text span {
-    color: var(--color);
-    font-weight: var(--bold);
+    color: var(--secondColor);
+}
+
+.leaflet-popup-close-button {
+    color: var(--thirdColor) !important;
 }
 
 .fav-btn {
-    width: 100%;
+    width: 150px;
+    align-self: center;
+    color: var(--thirdColor);
+    background-color: var(--color);
+    box-shadow: 2px 2px 3px 0px var(--secondColor);
+    margin: 5px 0px 10px 0px;
     padding: 8px;
-    font-size: 16px;
-    background-color: var(--colorSecond);
-    color: var(--color);
-    border: none;
-    border-radius: 10px;
+    border: var(--border);
+    border-radius: var(--borderRadius);
+    font-weight: var(--bold);
     cursor: pointer;
 }
 
-@media (max-width: 450px) {
-    .container-header h1 {
-        font-size: 38px;
-    }
-    .container-main {
-        height: 100vh;
-        overflow-x: auto;
-        display: flex;
-    }
-    .section-map {
-        width: 100%;
-    }
-    #map, #filter-map {
-        width: 90%;
-    }
-    #filter-aside {
-        width: 90%;
-        height: 120px;
-    }
-    .container-forms {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .section-form {
-        width: 90%;
-    }
-    .section-login {
-        margin-top: 10px;
-    }
+.leaflet-popup-tip {
+    background-color: var(--color) !important;
 }
 
-@media (max-width: 850px) {
-    .container-main {
-        height: 100vh;
-        overflow-x: auto;
-        display: flex;
-    }
-    .section-map {
-        width: 100%;
-    }
-    #map, #filter-map {
-        width: 90%;
-    }
-    #filter-aside {
-        width: 90%;
-        height: 120px;
-    }
-    .container-forms {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .section-form {
-        width: 90%;
-    }
-    .section-login {
-        margin-top: 10px;
-    }
+/* ESCALA DE MAGNITUDES */
+
+.info {
+    width: 120px;
+    height: 295px;
+    position: fixed;
+    top: 280px;
+    right: 4px;
+    z-index: 999;
+    box-sizing: var(--sizing);
+    background-color: var(--color);
+    border-radius: var(--borderRadius);
+    opacity: 0.9;
+    text-align: end;
+}
+
+#close-info {
+    border: none;
+    color: var(--thirdColor);
+    background: transparent;
+    font-weight: var(--bold);
+    font-size: var(--size2);
+}
+
+.info h3 {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: var(--bold);
+    letter-spacing: var(--spacing);
+}
+
+.info ul {
+    margin-top: 10px;
+}
+
+.info ul li {
+    text-align: start;
+}
+
+.info ul li:not(.info ul li:first-child) {
+    margin-top: 8px;
+}
+
+.info-element {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 60px;
+    border: 1px solid black;
+    font-size: 20px;
+    margin: 0px 10px;
+}
+
+/* ESTILOS MODAL DE REGISTRO */
+.section-forms {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: var(--sizing);
+    text-align: end;
+}
+
+#register-modal, #login-modal {
+    display: none;
+    width: 90%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: var(--sizing);
+    background-color: var(--color);
+    box-shadow: 2px 2px 1px 0px var(--thirdColor);
+    border-radius: var(--borderRadius);
+}
+
+.user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.section-forms h3 {
+    text-align: center;
+    font-size: var(--size2);
+    letter-spacing: var(--spacing);
+    margin-bottom: 15px;
+    font-weight: var(--bold);
+    color: var(--secondColor);
+}
+
+.user-form input {
+    padding: 5px;
+    border-radius: 8px;
+    border: 2px solid var(--secondColor);
+    background-color: var(--color);
+    color: var(--thirdColor);
+}
+
+input:focus {
+    outline: none;
+}
+
+.user-form label {
+    text-align: start;
+}
+
+.section-forms button[type="submit"] {
+    width: 150px;
+    align-self: center;
+    color: var(--thirdColor);
+    background-color: var(--color);
+    box-shadow: 2px 2px 3px 0px var(--secondColor);
+    margin: 5px 0px 10px 0px;
+    padding: 8px;
+    border: var(--border);
+    border-radius: var(--borderRadius);
+    font-weight: var(--bold);
+    cursor: pointer;
+}
+
+#register-close,
+#login-close {
+    border: none;
+    color: var(--thirdColor);
+    background: transparent;
+    font-weight: var(--bold);
+    font-size: var(--size2);
+}
+
+/* FOOTER */
+.container-footer {
+    width: 100%;
+    height: 35px;
+    background-color: var(--secondColor);
+}
+
+.container-footer p {
+    text-align: center;
+    margin: 10px;
+    color: var(--color);
+    font-weight: var(--bold);
 }
