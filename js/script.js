@@ -1,3 +1,23 @@
+// FIRESTORE
+// Objeto de Conexión
+let firebaseConfig = {
+  apiKey: "AIzaSyB9pXcMFfhfAQIHUKgY-0uJ_GymlsfmiLk",
+  authDomain: "fir-web-e6114.firebaseapp.com",
+  projectId: "fir-web-e6114",
+  storageBucket: "fir-web-e6114.firebasestorage.app",
+  messagingSenderId: "52533220535",
+  appId: "1:52533220535:web:9247805c509834fdb6a932",
+};
+
+// Inicializar app Firebase
+firebase.initializeApp(firebaseConfig);
+
+// db representa mi BBDD //inicia Firestore
+const db = firebase.firestore();
+
+// Firebase Auth
+const auth = firebase.auth();
+
 // MAPA TERREMOTOS EN VIVO
 var map = L.map("map").setView([51.505, -0.09], 1.5);
 
@@ -67,21 +87,19 @@ getMap().then((data) => {
                 <p class="popup-text"><span>Lugar: </span>${pin.properties.place}</p>
                 <p class="popup-text"><span>Código: </span>${pin.properties.code}</p>
                 <p class="popup-text"><span>Magnitud: </span>${pin.properties.mag}</p>
-                <button class='fav-btn'>Añadir a Destacado</button>
+                <button class='fav-btn'>Añadir a Favoritos</button>
                 `
       )
       .addTo(map);
-    markers.on("popupopen", () => {
-      const favButton = document.querySelector(".fav-btn");
 
-      if (favButton) {
+      markers.on("popupopen", () => {
+        const popupElement = markers.getPopup().getElement();
+        const favButton = popupElement.querySelector(".fav-btn");
+
         favButton.addEventListener("click", () => {
-          alert(
-            `El Terremoto ${pin.properties.title} ha sido guardado a tu lista.`
-          );
-        });
-      }
-    });
+          addEarthquakeFavorites(pin);
+        })
+      })
   });
 });
 
@@ -124,6 +142,7 @@ getMap2().then((data) => {
     });
 
     dataFilter.map((pin) => {
+      let color;
       const coordinates_pin = [
         pin.geometry.coordinates[1],
         pin.geometry.coordinates[0],
@@ -158,28 +177,6 @@ getMap2().then((data) => {
   });
 });
 
-// Información Niveles Sísmicos
-// const infoHidden = document.getElementById("container-info")
-// document.getElementById("life-btn").addEventListener("click", () => {
-//    infoHidden.innerHTML += `
-//     <div class="info-hidden">
-//       <h4>Colores Niveles Sísmicos</h4>
-//       <ol class="info-list">
-//         <li class="info-element">0 <i class="fa fa-circle"></i></li>
-//         <li class="info-element">1 <i class="fa fa-circle"></i></li>
-//         <li class="info-element">2 <i class="fa fa-circle"></i></li>
-//         <li class="info-element">3 <i class="fa fa-circle"></i></li>
-//         <li class="info-element">4 <i class="fa fa-circle"></i></li>
-//         <li class="info-element">5 <i class="fa fa-circle"></i></li>
-//         <li class="info-element">6 <i class="fa fa-circle"></i></li>
-//         <li class="info-element">7 <i class="fa fa-circle"></i></li>
-//       </ol>   
-//     </div>
-//     `
-//     const lifeBtn = document.getElementById("life-btn")
-//     lifeBtn.disabled = true;
-// })
-
 // MODAL REGISTRO DE USUARIOS
 let modalRegister = document.getElementById("register-modal");
 let openRegister = document.getElementById("register-open");
@@ -187,7 +184,7 @@ let closeRegister = document.getElementById("register-close");
 
 openRegister.addEventListener("click", () => {
   modalRegister.style.display = "block";
-})
+});
 
 closeRegister.addEventListener("click", () => {
   modalRegister.style.display = "none";
@@ -201,6 +198,7 @@ let closeLogin = document.getElementById("login-close");
 openLogin.addEventListener("click", () => {
   modalLogin.style.display = "block";
 });
+
 closeLogin.addEventListener("click", () => {
   modalLogin.style.display = "none";
 })
@@ -213,40 +211,8 @@ closeInfo.addEventListener("click", () => {
   modalInfo.style.display = "none";
 });
 
-// FIRESTORE
-// Objeto de Conexión
-let firebaseConfig = {
-  apiKey: "AIzaSyB9pXcMFfhfAQIHUKgY-0uJ_GymlsfmiLk",
-  authDomain: "fir-web-e6114.firebaseapp.com",
-  projectId: "fir-web-e6114",
-  storageBucket: "fir-web-e6114.firebasestorage.app",
-  messagingSenderId: "52533220535",
-  appId: "1:52533220535:web:9247805c509834fdb6a932",
-};
-
-// Inicializar app Firebase
-firebase.initializeApp(firebaseConfig);
-
-// db representa mi BBDD //inicia Firestore
-const db = firebase.firestore();
-
-// REGISTRO DE USUARIO
-// Crear elemento de Registro
-const createUser = (user) => {
-  db.collection("registerUsers")
-    .add(user)
-    .then((docRef) => {
-      alert(`Has sido registrado correctamente. Su id es: ${docRef.id}`);
-    })
-    .catch((error) =>
-      console.error(
-        `Ha habido un error en su registro: ${error}. Inténtelo de nuevo por favor.`
-      )
-    );
-};
-
-// Crear Registro
-document.getElementById("register-form").addEventListener("submit", (event) => {
+// Crear Usuario
+document.getElementById("register-form").addEventListener("submit", async (event) => {
   // Evitar comportamiento por defecto
   event.preventDefault();
 
@@ -262,38 +228,208 @@ document.getElementById("register-form").addEventListener("submit", (event) => {
   // Validación de los input
   if (!username) {
     alert(`El campo ${username} está incompleto.`);
+    return;
+
   } else if (!email) {
     alert(`El campo ${email} está incompleto.`);
-  } else if (!password) {
+    return;
+
+  } else if (!passwordValidation.test(password)) {
     alert(
-      `Contraseña incompleta ${password}. Debe tener al menos 1 mayúscula y mínimo 6 carácteres.`
-    );
+      `Contraseña incompleta ${password}. Debe tener al menos 1 mayúscula y mínimo 6 carácteres.`);
+      return;
+
   } else if (password != repitePassword) {
     alert(`Las contraseñas deben coincidir.`);
+    return;
   }
 
-  // Añadir valores a la colección Usuario
-  createUser({
-    username,
-    email,
-    password,
-  });
-  // Resetear Formulario
-  event.target.reset();
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+
+    // Añadir a colección "users"
+    await db.collection("users").doc(user.uid).set({
+      username,
+      email,
+      createAt: firebase.firestore.FieldValue.serverTimestamp(),
+      favorites: []
+    });
+
+    alert("Usuario registrado correctamente!");
+    modalRegister.style.display = "none";
+    event.target.reset();
+
+  } catch (error) {
+    console.error(error);
+  }
 });
 
-// Eliminar Usuario
-const deleteUser = () => {
-  const email = prompt(`Introduce su email para eliminar su usuario.`);
-  db.collection("registerUsers")
-    .doc(email)
-    .delete()
-    .then(() => {
-      alert(`Su usuario con email ${email} ha sido eliminado.`);
-    })
-    .catch(() => {
-      alert(
-        `Su usuario con email ${email} no se ha podido eliminar. Inténtelo de nuevo.`
-      );
+// Inicio de Sesión
+document.getElementById("login-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  
+  if (auth.currentUser) {
+    alert("Ya hay una sesión iniciada.");
+    modalLogin.style.display = "none";
+    return;
+  }
+
+  const email = event.target.email.value.trim();
+  const password = event.target.password.value.trim();
+
+  try {
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    alert(`Sesión iniciada: ${userCredential.user.email}`);
+    modalLogin.style.display = "none";
+    event.target.reset();
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+// Cerrar Sesión
+const logoutButton = document.getElementById("logout-open");
+logoutButton.addEventListener("click", async () => {
+  if(!auth.currentUser) {
+    return;
+  }
+
+  try {
+    await auth.signOut();
+    alert("Has cerrado sesión correctamente.");
+    window.location.reload();
+  } catch (error) {
+    console.error(error);
+    alert("No se ha podido cerrar sesión.");
+  }
+})
+
+
+// Cambio usuario sin registrar a registrado
+const RegisterLoginBtn = document.querySelectorAll(".user-close");
+const openLogout = document.getElementById("logout-open");
+const welcomeText = document.getElementById("info-text");
+
+auth.onAuthStateChanged(async (user) => {
+  if(user) {
+    RegisterLoginBtn.forEach((button) => {
+      button.style.display = "none";
     });
-};
+    openLogout.style.display = "block";
+    // Terremotos Favoritos
+    getUserFavorites();
+  } else {
+    getUserFavorites();
+  }
+
+  try {
+    // Sacar el username del usuario
+    const userDoc = await db.collection("users").doc(user.uid).get();
+
+    if(userDoc.exists) {
+      const userData = userDoc.data();
+      welcomeText.innerHTML = `¡Hola ${userData.username}! Tu experiencia sísmica acaba de mejorar: guarda, organiza y sigue los terremotos que quieras tener bajo control.`;
+    }
+  } catch (error) {
+      console.error(error);
+    }
+})
+
+// Añadir Terremotos a Favoritos
+const addEarthquakeFavorites = async (earthquake) => {
+  const user = auth.currentUser;
+
+  if(!user) {
+    alert("Debes iniciar sesión para guardar terremotos favoritos.");
+    return;
+  }
+
+  try {
+    await db
+      .collection("users")
+      .doc(user.uid)
+      .collection("favorites")
+      .doc(earthquake.id)
+      .set({
+        id: earthquake.id,
+        title: earthquake.properties.title,
+        magnitude: earthquake.properties.mag,
+        place: earthquake.properties.place,
+        time: earthquake.properties.time,
+        url: earthquake.properties.url,
+        coordinates: earthquake.geometry.coordinates,
+        savedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+
+      alert("¡Terremoto añadido a favoritos con éxito!");
+      getUserFavorites();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Mostrar Terremotos Favoritos
+const getUserFavorites = async () => {
+  const user = auth.currentUser;
+  const favoriteContainer = document.getElementById("favorites-earthquake-container");
+
+  favoriteContainer.innerHTML = "";
+
+  if(!user) {
+    favoriteContainer.innerHTML = '<p class="alert-text-earthquake">Inicia sesión para ver tus terremotos favoritos.</p>';
+    return;
+  }
+
+  try {
+    const earthquakeFavorite = await db
+      .collection("users")
+      .doc(user.uid)
+      .collection("favorites")
+      .orderBy("savedAt", "desc")
+      .get();
+
+      if(earthquakeFavorite.empty) {
+        favoriteContainer.innerHTML = '<p class="alert-text-earthquake">No tienes terremotos favoritos añadidos todavía.</p>';
+        return;
+      }
+
+      earthquakeFavorite.forEach((doc) => {
+        const earthquake = doc.data();
+        const date = new Date(earthquake.time).toLocaleString("es-ES");
+
+        const favoriteArticle = document.createElement("article");
+        favoriteArticle.className = "favorite-earthquake-article"
+
+        favoriteArticle.innerHTML = `
+          <h3 class="favorite-earthquake-title">${earthquake.title}</h3>
+          <p class="favorite-earthquake-text"><span>Fecha:</span> ${date}</p>
+          <p class="favorite-earthquake-text"><span>Lugar:</span> ${earthquake.place}</p>
+          <p class="favorite-earthquake-text"><span>Código:</span> ${earthquake.code}</p>
+          <p class="favorite-earthquake-text"><span>Magnitud:</span> ${earthquake.magnitude}</p>
+          <a href="${earthquake.url}" target="_blank" class="favorite-earthquake-link">Ver más información</a>
+          <button class="delete-fav-btn">Eliminar</button>
+        `;
+
+        const deleteButton = favoriteArticle.querySelector(".delete-fav-btn");
+
+        deleteButton.addEventListener("click", async () => {
+          const user = auth.currentUser;
+
+          await db
+            .collection("users")
+            .doc(user.uid)
+            .collection("favorites")
+            .doc(doc.id)
+            .delete();
+
+            getUserFavorites();
+        });
+
+        favoriteContainer.appendChild(favoriteArticle);
+      });
+      
+  } catch (error) {
+    console.error(error);
+  }
+}

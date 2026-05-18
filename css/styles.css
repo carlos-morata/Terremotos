@@ -4,8 +4,8 @@
     --secondColor: #aad3df;
     --thirdColor: white;
     --colorOld: #fca311;
-    --size: 25px;
-    --size2: 22px;
+    --size: 28px;
+    --size2: 25px;
     --bold: bold;
     --sizing: border-box;
     --border: none;
@@ -23,6 +23,10 @@ body {
     width: 100vw;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* HEADER */
 .container-header {
     background-color: var(--secondColor);
@@ -30,7 +34,7 @@ body {
     box-sizing: var(--sizing);
 }
 
-.container-header h1 {
+.container-header .title {
     color: var(--color);
     font-size: var(--size);
     font-weight: var(--bold);
@@ -39,7 +43,6 @@ body {
 }
 
 /* BOTONES REGISTRO / INICIO DE SESIÓN */
-
 .section-user-btn {
     display: flex;
     justify-content: space-around;
@@ -47,7 +50,6 @@ body {
 
 .user-btn {
     background-color: var(--secondColor);
-    color: var(--color);
     box-shadow: 3px 3px 5px 0px var(--color);
     margin: 5px 0px 10px 0px;
     border: var(--border);
@@ -56,6 +58,15 @@ body {
     border-radius: var(--borderRadius);
     font-weight: var(--bold);
     cursor: pointer;
+}
+
+#logout-open {
+    display: none;
+}
+
+.user-form-link {
+    color: var(--color);
+    text-decoration: none;
 }
 
 /* MAIN */
@@ -71,6 +82,10 @@ body {
     text-align: var(--center);
     margin: 15px auto;
     line-height: 19px;
+}
+
+#info-text a {
+    color: var(--thirdColor);
 }
 
 /* LOS DOS MAPAS */
@@ -332,6 +347,88 @@ input:focus {
     font-size: var(--size2);
 }
 
+/* LISTA TERREMOTOS FAVORITOS */
+#favorite-earthquake-section {
+    width: 100vw;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+}
+
+.title-favorite {
+    text-align: center;
+    color: var(--secondColor);
+    font-size: var(--size2);
+    font-weight: var(--bold);
+    letter-spacing: var(--spacing);
+    margin-bottom: 15px;
+}
+
+#favorites-earthquake-container {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+}
+
+.alert-text-earthquake {
+    width: 75%;
+    padding: 5px;
+    text-align: var(--center);
+    font-weight: var(--bold);
+    font-size: 17px;
+    border-radius: var(--borderRadius);
+    box-shadow: 0px 0px 4px 0px var(--secondColor);
+    letter-spacing: var(--spacing);
+}
+
+.favorite-earthquake-article {
+    width: 82%;
+    border-radius: var(--borderRadius);
+    box-shadow: 0px 0px 4px 0px var(--secondColor);
+    padding: 10px;
+}
+
+.favorite-earthquake-title {
+    font-size: 18px;
+    color: var(--secondColor);
+    font-weight: var(--bold);
+    border-bottom: 1px solid var(--thirdColor);
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.favorite-earthquake-text {
+    margin: 10px 0px;
+}
+
+.favorite-earthquake-link {
+    display: block;
+    color: var(--secondColor);
+    font-weight: var(--bold);
+    margin-bottom: 10px;
+}
+
+.favorite-earthquake-text span {
+    color: var(--secondColor);
+}
+
+.delete-fav-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 8px;
+    border: none;
+    border-radius: var(--borderRadius);
+    color: var(--thirdColor);
+    background-color: var(--color);
+    font-weight: var(--bold);
+    text-transform: uppercase;
+    letter-spacing: var(--spacing);
+    box-shadow: 0px 1px 0px 0.2px var(--secondColor);
+}
+
+
 /* FOOTER */
 .container-footer {
     width: 100%;
@@ -339,9 +436,162 @@ input:focus {
     background-color: var(--secondColor);
 }
 
-.container-footer p {
-    text-align: center;
+.profile-link {
+    display: block;
     margin: 10px;
+    font-size: 16px;
+    text-align: center;
     color: var(--color);
     font-weight: var(--bold);
+    text-decoration: none;
+}
+
+/* ESTILOS TABLET */
+@media(max-width: 950px) {
+    .section-maps h2 {
+        width: 90%;
+        margin: 0 auto;
+        margin-bottom: 5px;
+    }
+
+    #map, #filter-map {
+        height: 235px;
+    }
+
+    .filter-form {
+        flex-direction: row;
+        justify-content: center;
+        column-gap: 25px;
+        margin: 0 auto;
+    }
+
+    #mag, #start-date, #end-date {
+        width: fit-content;
+        margin-left: 0;
+    }
+
+    .info {
+        right: 25px;
+    }
+
+    .favorite-earthquake-article {
+        width: 50%;
+    }
+}
+
+/* ESTILOS ORDENADOR */
+@media(min-width: 951px) {
+    .container-header .title {
+        font-size: 38px;
+    }
+
+    .user-btn {
+        width: fit-content;
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .container-main > p {
+        width: 55%;
+        font-size: 22px;
+        line-height: 25px;
+    }
+
+    .section-maps h2 {
+        width: 75%;
+        font-size: 30px;
+        margin: 0 auto;
+        margin-bottom: 5px;
+    }
+
+    #map, #filter-map {
+        width: 75%;
+        height: 275px;
+    }
+
+    .map-life {
+        margin-bottom: 25px;
+    }
+
+    .filter-form {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        column-gap: 25px;
+        margin: 0 auto;
+    }
+
+    #mag, #start-date, #end-date {
+        width: fit-content;
+        font-size: 18px;
+        margin-left: 0;
+    }
+
+    .filter-label {
+        font-size: 20px;
+    }
+
+    #add-btn {
+        width: fit-content;
+        padding: 8px 16px;
+        font-size: 18px;
+    }
+
+    .info {
+        right: 18px;
+    }
+
+    .info h3 {
+        font-size: 20px;
+    }
+
+    .section-forms {
+        align-items: center;
+        column-gap: 20px;
+    }
+
+    .section-forms h3 {
+        margin-bottom: 20px;
+    }
+
+    #register-modal, #login-modal {
+        width: 35%;
+        margin-bottom: 25px;
+    }
+
+    .user-form label {
+        font-size: 20px;
+    }
+
+    .user-form input {
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .user-form button[type="submit"] {
+        font-size: 18px;
+    }
+
+    #favorites-earthquake-container {
+        flex-flow: row wrap;
+        gap: 20px;
+    }
+
+    .alert-text-earthquake {
+        width: fit-content;
+        padding: 10px;
+        font-size: 20px;
+    }
+
+    .title-favorite {
+        font-size: 30px;
+    }
+
+    .favorite-earthquake-article {
+        width: 35%;
+    }
+
+    .profile-link {
+        font-size: 20px;
+    }
 }

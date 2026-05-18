@@ -22,14 +22,19 @@
 </head>
 <body>
     <header class="container-header">
-        <h1>Monitor de Terremotos</h1>
+        <h1 class="title">Monitor de Terremotos</h1>
         <section class="section-user-btn">
-            <button class="user-btn" id="register-open">Regístrarme</button>
-            <button class="user-btn" id="login-open">Iniciar Sesión</button>
+            <button class="user-btn user-close" id="register-open">
+                <a href="#register-title" class="user-form-link">Regístrarme</a>
+            </button>
+            <button class="user-btn user-close" id="login-open">
+                <a href="#login-title" class="user-form-link">Iniciar Sesión</a>
+            </button>
+            <button class="user-btn" id="logout-open">Cerrar Sesión</button>
         </section>
     </header>
     <main class="container-main">
-        <p>Consulta el mapa de terremotos en vivo y el registro histórico con filtros por nivel sísmico y fechas de inicio / fin.<a href="#register-title"> Regístrate</a> para guardar los terremotos que más te interesen o <a href="#login-title">inicia sesión</a> si ya tienes una cuenta para disfrutar de todas las funcionalidades.</p>
+        <p id="info-text">Consulta el mapa de terremotos en vivo y el registro histórico con filtros por nivel sísmico y fechas de inicio / fin.<a href="#register-title"> Regístrate</a> para guardar los terremotos que más te interesen o <a href="#login-title">inicia sesión</a> si ya tienes una cuenta para disfrutar de todas las funcionalidades.</p>
 
         <section class="section-maps">
             <section class="map-life">
@@ -103,20 +108,24 @@
             <section class="login-form" id="login-modal">
                 <button id="login-close">&times;</button>
                 <h3 id="login-title">Inicio de Sesión</h3>
-                <form action="" class="user-form">
+                <form action="" id="login-form" class="user-form">
                     <label for="login-email">Correo Electrónico</label>
-                    <input type="email" id="login-email" required>
+                    <input name="email" type="email" id="login-email" required>
 
                     <label for="login-password">Contraseña</label>
-                    <input type="password" id="login-password" required>
+                    <input name="password" type="password" id="login-password" required>
 
                     <button type="submit">Iniciar Sesión</button>
                 </form>
             </section>
         </section>
+        <section id="favorite-earthquake-section">
+            <h2 class="title-favorite">Terremotos Favoritos</h2>
+            <section id="favorites-earthquake-container"></section>
+        </section>
     </main>
     <footer class="container-footer">
-        <p>&copy; Carlos Moratinos</p>
+        <a href="https://github.com/carlos-morata" target="_blank" class="profile-link">&copy; Carlos Moratinos</a>
     </footer>
 
     <!-- Firebase Firestore -->
